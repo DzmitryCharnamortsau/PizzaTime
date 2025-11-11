@@ -59,21 +59,26 @@ public class MainMenu {
         DrinkFlavor flavor = null;
         while(size == null){
             System.out.println("Would you like small, medium or large drink?");
+            System.out.println("Press 0 to go back");
             String input = scanner.nextLine().toUpperCase();
+            if (input.equals("0")) {
+                orderScreen();
+                return;
+            }
             try {
                 size = DrinkSize.valueOf(input);
                 System.out.println("You selected: " + size);
             } catch (IllegalArgumentException e) {
-                System.out.println("Please enter a valid size.");
+                System.out.println("Please enter a valid size or press 0 to go back.");
             }
         }
         while(flavor == null){
             System.out.println("What flavor would you like to choose: " +
-                    "\nCherry" +
-                    "\nWatermelon" +
-                    "\nOrange" +
-                    "\nStrawberry" +
-                    "\nApple");
+                    "\nCherry🍒" +
+                    "\nWatermelon🍉" +
+                    "\nOrange🍊" +
+                    "\nStrawberry🍓" +
+                    "\nApple🍏");
             String userInput = scanner.nextLine().toUpperCase();
             try {
                 flavor = DrinkFlavor.valueOf(userInput);
@@ -88,7 +93,8 @@ public class MainMenu {
     }
     public static void addKnots(){
         while(true){
-            System.out.println("How many garlic knots would you like to add? Press 0 to go back");
+            System.out.println("How many garlic knots would you like to add?");
+            System.out.println("Press 0 to go back");
             try {
                 int quantity = scanner.nextInt();
                 scanner.nextLine();
@@ -97,7 +103,7 @@ public class MainMenu {
                     return;
                 }
                 if (quantity < 0) {
-                    System.out.println("Please enter a positive number or press 0 to cancel");
+                    System.out.println("Please enter a positive number or press 0 to go back");
                     continue;
                 }
                 GarlicKnots garlicKnots = new GarlicKnots(1.50, quantity);

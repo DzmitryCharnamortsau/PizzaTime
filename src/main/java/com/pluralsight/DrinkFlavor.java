@@ -1,5 +1,9 @@
 package com.pluralsight;
 
 public enum DrinkFlavor {
-    CHERRY, WATERMELON, ORANGE, STRAWBERRY, APPLE
+    CHERRY,
+    WATERMELON,
+    ORANGE,
+    STRAWBERRY,
+    APPLE
 }
