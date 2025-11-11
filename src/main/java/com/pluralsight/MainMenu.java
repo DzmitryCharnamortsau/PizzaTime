@@ -1,5 +1,6 @@
 package com.pluralsight;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class MainMenu {
@@ -63,7 +64,7 @@ public class MainMenu {
                 size = DrinkSize.valueOf(input);
                 System.out.println("You selected: " + size);
             } catch (IllegalArgumentException e) {
-                System.out.println("Invalid size. Please try again.");
+                System.out.println("Please enter a valid size.");
             }
         }
         while(flavor == null){
@@ -78,7 +79,7 @@ public class MainMenu {
                 flavor = DrinkFlavor.valueOf(userInput);
                 System.out.println("You selected: " + flavor);
             } catch (IllegalArgumentException e) {
-                System.out.println("Invalid flavor. Please try again.");
+                System.out.println("Please enter a valid flavor.");
             }
         }
         Drink drink = new Drink(size, flavor, size.getPrice());
@@ -86,17 +87,26 @@ public class MainMenu {
         orderScreen();
     }
     public static void addKnots(){
-        System.out.println("Would you like to add garlic knots? Press 1 if yes, press 2 if no");
-        String choice = scanner.nextLine();
-        switch(choice){
-            case "1" -> {
-                int quantity = 0;
-                System.out.println("How many of them would you like to add?");
-                quantity = scanner.nextInt();
+        while(true){
+            System.out.println("How many garlic knots would you like to add? Press 0 to go back");
+            try {
+                int quantity = scanner.nextInt();
+                scanner.nextLine();
+                if (quantity == 0) {
+                    orderScreen();
+                    return;
+                }
+                if (quantity < 0) {
+                    System.out.println("Please enter a positive number or press 0 to cancel");
+                    continue;
+                }
                 GarlicKnots garlicKnots = new GarlicKnots(1.50, quantity);
-                System.out.println("You added " + quantity + " garlic knots");
+                System.out.println("You added " + quantity + " garlic knots " + garlicKnots);
+                break;
+            } catch (InputMismatchException e){
+                System.out.println("Invalid input! Please enter a valid number");
+                scanner.nextLine();
             }
-            case "2" -> orderScreen();
         }
     }
     public static void checkOut(){

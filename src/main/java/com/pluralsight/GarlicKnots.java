@@ -13,4 +13,8 @@ public class GarlicKnots {
     public double getPrice() {
         return price*quantity;
     }
+    @Override
+    public String toString(){
+        return "The price is $" + String.format("%.2f", getPrice());
+    }
 }
