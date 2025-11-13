@@ -10,7 +10,8 @@ Customers can choose crusts, toppings, sauces, and more — then proceed to chec
   - add toppings, sauces and sides
 - 🍹Add a drink (with size and flavor options)
 - 🧄Add garlic knots
-- 🛒Checkout and generate a receipt 
+- 🛒Checkout and generate a receipt
+ 
 ***Differents screens:***
 
 ![Add Pizza screen](addPizzaMenu.png)
