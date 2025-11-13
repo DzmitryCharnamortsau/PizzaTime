@@ -12,8 +12,14 @@ Customers can choose crusts, toppings, sauces, and more — then proceed to chec
 - 🧄Add garlic knots
 - 🛒Checkout and generate a receipt
  
-***Differents screens:***
+***Add Pizza screen:***
 
 ![Add Pizza screen](addPizzaMenu.png)
+
+***Add Drink screen:***
+
 ![Add Drink screen](addDrinkMenu.png)
+
+***Checkout screen:***
+
 ![Checkout screen](checkoutMenu.png)
