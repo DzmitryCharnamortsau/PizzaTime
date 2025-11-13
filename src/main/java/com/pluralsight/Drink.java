@@ -10,6 +10,19 @@ public class Drink {
         this.flavor = flavor;
         this.price = price;
     }
+
+    public DrinkSize getSize() {
+        return size;
+    }
+
+    public DrinkFlavor getFlavor() {
+        return flavor;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
     @Override
     public String toString(){
         return size.getName() + " " + flavor.getName() + " drink. The price is $" + String.format("%.2f", price);

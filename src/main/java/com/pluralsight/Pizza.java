@@ -26,6 +26,30 @@ public class Pizza {
         return size;
     }
 
+    public CrustType getCrust() {
+        return crust;
+    }
+
+    public boolean isCrustStuffed() {
+        return isCrustStuffed;
+    }
+
+    public List<Toppings> getToppings() {
+        return toppings;
+    }
+
+    public List<Sauces> getSauces() {
+        return sauces;
+    }
+
+    public List<Sides> getSides() {
+        return sides;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
     public double getFullPrice() {
         return price;
     }

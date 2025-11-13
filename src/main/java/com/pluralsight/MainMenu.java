@@ -1,14 +1,18 @@
 package com.pluralsight;
 
-import java.sql.SQLOutput;
+import java.io.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
 public class MainMenu {
     private static final Scanner scanner = new Scanner(System.in);
+    private static final List<Pizza> pizzas = new ArrayList<>();
+    private static final List<Drink> drinks = new ArrayList<>();
+    private static final List<GarlicKnots> knots = new ArrayList<>();
     public static void homeScreen(){
         System.out.println("""
                     ___________________________
@@ -32,28 +36,36 @@ public class MainMenu {
         }
     }
     public static void orderScreen(){
-        boolean running = true;
-        while(running){
-            System.out.println("Press 1 to add pizza🍕");
-            System.out.println("Press 2 to add drink🧃");
-            System.out.println("Press 3 to add garlic knots🧄");
-            System.out.println("Press 4 to checkout🛒");
-            System.out.println("Press 0 to cancel your order❌");
+        boolean ordering = true;
+        while(ordering){
+            System.out.println("""
+            ------------------------------
+                 🍕 Pizza Time Order Menu 🍕
+            ------------------------------
+            1 - Add Pizza🍕
+            2 - Add Drink🧃
+            3 - Add Garlic Knots🧄
+            4 - Checkout🛒
+            0 - Cancel Order❌
+            """);
             System.out.print("Enter your choice: ");
             String choice = scanner.nextLine();
             switch(choice){
                 case "1" -> addPizza();
                 case "2" -> addDrink();
                 case "3" -> addKnots();
-                case "4" -> checkOut();
-                case "0" -> {
-                    System.out.println("Order canceled. Returning to the main menu");
-                    running = false;
-                    homeScreen();
+                case "4" -> {
+                    checkOut();
+                    ordering = false;
                 }
-                default -> System.out.println("Invalid character!");
+                case "0" -> {
+                    System.out.println("Order canceled. Returning to the main menu...");
+                    ordering = false;
+                }
+                default -> System.out.println("Invalid character! Please select an option from the menu.");
             }
         }
+        return;
     }
     public static void addPizza(){
         CrustType crustType = null;
@@ -65,7 +77,6 @@ public class MainMenu {
                     "\n-cauliflower");
             String input = scanner.nextLine().toUpperCase();
             if (input.equals("0")) {
-                orderScreen();
                 return;
             }
             try{
@@ -234,7 +245,8 @@ public class MainMenu {
         System.out.println("Sauces: " + String.join(", ", sauces.stream().map(Sauces::toString).toList()));
         System.out.println("Sides: " + String.join(", ", sides.stream().map(Sides::toString).toList()));
         System.out.printf("Total Price: $%.2f%n", pizza.getFullPrice());
-        orderScreen();
+        pizzas.add(pizza);
+        return;
     }
     public static void addDrink(){
         DrinkSize size = null;
@@ -244,7 +256,6 @@ public class MainMenu {
             System.out.println("Press 0 to go back");
             String input = scanner.nextLine().toUpperCase();
             if (input.equals("0")) {
-                orderScreen();
                 return;
             }
             try {
@@ -271,7 +282,8 @@ public class MainMenu {
         }
         Drink drink = new Drink(size, flavor, size.getPrice());
         System.out.println("Drink added: " + drink);
-        orderScreen();
+        drinks.add(drink);
+        return;
     }
     public static void addKnots(){
         while(true){
@@ -281,7 +293,6 @@ public class MainMenu {
                 int quantity = scanner.nextInt();
                 scanner.nextLine();
                 if (quantity == 0) {
-                    orderScreen();
                     return;
                 }
                 if (quantity < 0) {
@@ -290,6 +301,7 @@ public class MainMenu {
                 }
                 GarlicKnots garlicKnots = new GarlicKnots(1.50, quantity);
                 System.out.println("You added " + quantity + " garlic knots. " + garlicKnots);
+                knots.add(garlicKnots);
                 break;
             } catch (InputMismatchException e){
                 System.out.println("Invalid input! Please enter a valid number");
@@ -298,12 +310,127 @@ public class MainMenu {
         }
     }
     public static void checkOut(){
+        if (pizzas.isEmpty() && drinks.isEmpty() && knots.isEmpty()) {
+            System.out.println("You have no items in your order.");
+            return;
+        }
         boolean running = true;
         while (running) {
+            System.out.println("\nYour current order is: ");
+            for (Pizza p : pizzas) {
+                System.out.printf("Pizza: %s (%s crust%s) - $%.2f%n",
+                        p.getSize().getName(),
+                        p.getCrust().getName(),
+                        p.isCrustStuffed() ? ", stuffed" : "",
+                        p.getFullPrice());
+                System.out.println("  Toppings:");
+                for (Toppings t : p.getToppings()) {
+                    System.out.printf("    - %s%s%n",
+                            t.getName(),
+                            t.isExtra() ? " (extra)" : "");
+                }
+                System.out.println("  Sauces: " +
+                        String.join(", ", p.getSauces().stream()
+                                .map(Sauces::toString)
+                                .toList()));
+                System.out.println("  Sides: " +
+                        String.join(", ", p.getSides().stream()
+                                .map(Sides::toString)
+                                .toList()));
+            }
+            for (Drink d : drinks) {
+                System.out.printf("Drink: %s %s - $%.2f%n",
+                        d.getSize().getName(), d.getFlavor().getName(), d.getPrice());
+            }
+            for (GarlicKnots g : knots) {
+                System.out.printf("Garlic Knots x%d - $%.2f%n",
+                        g.getQuantity(), g.getPrice());
+            }
+            Order order = new Order(pizzas, drinks, knots, 0);
+            System.out.printf("%nTotal Price: $%.2f%n", order.getTotalPrice());
             System.out.println("Press 1 to confirm your order");
             System.out.println("Press 2 to cancel");
             String choice = scanner.nextLine();
-            switch(choice){}
+            switch(choice){
+                case "1" -> {
+                    saveReceipt(order);
+                    System.out.println("✔Order confirmed! Your receipt has been saved.");
+                    pizzas.clear();
+                    drinks.clear();
+                    knots.clear();
+                    running = false;
+                }
+                case "2" ->{
+                    System.out.println("Order canceled. Returning to the main menu...");
+                    pizzas.clear();
+                    drinks.clear();
+                    knots.clear();
+                    running = false;
+                }
+                default -> System.out.println("Invalid choice. Please enter 1 or 2");
+            }
+        }
+    }
+    private static void saveReceipt(Order order){
+        try {
+            File file = new File("Receipts");
+            if (!file.exists()) {
+                file.mkdirs();
+            }
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd-HHmmss");
+            String fileName = "Receipts/" + LocalDateTime.now().format(formatter) + ".txt";
+            try(BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))){
+                writer.write("🍕PizzaTime Receipt🍕\n");
+                writer.write("____________________\n");
+                if (!pizzas.isEmpty()) {
+                    writer.write("Pizzas:\n");
+                    for (Pizza p : pizzas) {
+                        writer.write(String.format("- %s (%s crust%s) $%.2f\n",
+                                p.getSize().getName(),
+                                p.getCrust().getName(),
+                                p.isCrustStuffed() ? ", stuffed" : "",
+                                p.getFullPrice()));
+                        writer.write("Toppings:\n");
+                        for (Toppings t : p.getToppings()) {
+                            writer.write(String.format("   - %s%s%n",
+                                    t.getName(),
+                                    t.isExtra() ? " (extra)" : ""));
+                        }
+                        writer.write("Sauces: " + String.join(", ",
+                                p.getSauces().stream()
+                                        .map(Sauces::toString)
+                                        .toList()) + "\n");
+                        writer.write("Sides: " + String.join(", ",
+                                p.getSides().stream()
+                                        .map(Sides::toString)
+                                        .toList()) + "\n");
+                    }
+                    writer.write("\n");
+                }
+                if (!drinks.isEmpty()) {
+                    writer.write("Drinks:\n");
+                    for (Drink d : drinks) {
+                        writer.write(String.format("- %s %s $%.2f\n",
+                                d.getSize().getName(),
+                                d.getFlavor().getName(),
+                                d.getPrice()));
+                    }
+                    writer.write("\n");
+                }
+                if (!knots.isEmpty()) {
+                    writer.write("Garlic Knots:\n");
+                    for (GarlicKnots g : knots) {
+                        writer.write(String.format("- %d knots $%.2f\n",
+                                g.getQuantity(), g.getPrice()));
+                    }
+                    writer.write("\n");
+                }
+                writer.write(String.format("Total Price: $%.2f\n", order.getTotalPrice()));
+                writer.write("Thank you for your order! See you next time🍕\n");
+            }
+        }
+        catch(IOException e){
+            System.out.println("Error saving receipt");
         }
     }
 }
