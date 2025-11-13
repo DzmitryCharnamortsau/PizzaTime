@@ -16,14 +16,14 @@ public enum ToppingType {
     GOAT_CHEESE("Goat cheese", "cheese", 0.75, 1.50, 1.25, 0.30, 0.60, 0.90),
     //regular
     ONIONS("Onions", "regular"),
-    MUSHROOMS("Onions", "regular"),
-    BELL_PEPPERS("Onions", "regular"),
-    OLIVES("Onions", "regular"),
-    TOMATOES("Onions", "regular"),
-    SPINACH("Onions", "regular"),
-    BASIL("Onions", "regular"),
-    PINEAPPLE("Onions", "regular"),
-    ANCHOVIES("Onions", "regular");
+    MUSHROOMS("Mushrooms", "regular"),
+    BELL_PEPPERS("Bell Peppers", "regular"),
+    OLIVES("Olives", "regular"),
+    TOMATOES("Tomatoes", "regular"),
+    SPINACH("Spinach", "regular"),
+    BASIL("Basil", "regular"),
+    PINEAPPLE("Pineapple", "regular"),
+    ANCHOVIES("Anchovies", "regular");
 
 
     private final String name;

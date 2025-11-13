@@ -21,4 +21,12 @@ public class Pizza {
         this.sides = sides;
         this.price = price;
     }
+
+    public PizzaSize getSize() {
+        return size;
+    }
+
+    public double getFullPrice() {
+        return price;
+    }
 }

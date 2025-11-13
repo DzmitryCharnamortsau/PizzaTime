@@ -12,6 +12,6 @@ public class Drink {
     }
     @Override
     public String toString(){
-        return size + " " + flavor + " drink. The price is $" + String.format("%.2f", price);
+        return size.getName() + " " + flavor.getName() + " drink. The price is $" + String.format("%.2f", price);
     }
 }

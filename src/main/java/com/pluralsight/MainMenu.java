@@ -1,7 +1,11 @@
 package com.pluralsight;
 
+import java.sql.SQLOutput;
+import java.util.ArrayList;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class MainMenu {
     private static final Scanner scanner = new Scanner(System.in);
@@ -52,7 +56,185 @@ public class MainMenu {
         }
     }
     public static void addPizza(){
-
+        CrustType crustType = null;
+        while(crustType == null){
+            System.out.println("Please select the type of crust from the following or press 0 to go back: " +
+                    "\n-thin" +
+                    "\n-regular" +
+                    "\n-thick" +
+                    "\n-cauliflower");
+            String input = scanner.nextLine().toUpperCase();
+            if (input.equals("0")) {
+                orderScreen();
+                return;
+            }
+            try{
+                crustType = CrustType.valueOf(input);
+                System.out.println("You selected: " + crustType.getName() + " crust");
+            } catch (IllegalArgumentException e) {
+                System.out.println("Please choose one crust from the list or press 0 to go back");
+            }
+        }
+        boolean stuffedCrust = false;
+        while(true){
+            System.out.println("Would you like the pizza with stuffed crust?" +
+                    "\n-yes" +
+                    "\n-no");
+            String stuffed = scanner.nextLine();
+            if(stuffed.equalsIgnoreCase("yes")){
+                System.out.println("You added stuffed crust");
+                stuffedCrust = true;
+                break;
+            } else if(stuffed.equalsIgnoreCase("no")){
+                System.out.println("No stuffed crust selected");
+                break;
+            } else {
+                System.out.println("Please enter 'yes' or 'no'");
+            }
+        }
+        PizzaSize pizzaSize = null;
+        while(pizzaSize == null){
+            System.out.println("Please select the size: " +
+                    "\n-personal(8')" +
+                    "\n-medium(12')" +
+                    "\n-large(16')");
+            String input = scanner.nextLine().toUpperCase();
+            try{
+                pizzaSize = PizzaSize.valueOf(input);
+                System.out.println("You selected: " + pizzaSize.getName() + " size");
+            } catch (IllegalArgumentException e) {
+                System.out.println("Please choose one size from the list");
+            }
+        }
+        List<Toppings> toppings = new ArrayList<>();
+        while(toppings.isEmpty()){
+            System.out.println("""
+                    Please select your toppings:
+                    -pepperoni      -mozzarella     -onions         -basil
+                    -sausage        -parmesan       -mushrooms      -pineapple
+                    -ham            -ricotta        -bell peppers   -anchovies
+                    -bacon          -goat cheese    -olives
+                    -chicken        -buffalo        -tomatoes
+                    -meatball                       -spinach
+                    """);
+            String input = scanner.nextLine().trim().toUpperCase();
+            String[] choices = input.split(",");
+            for (String choice : choices){
+                try {
+                    choice = choice.trim().replace(" ", "_");
+                    ToppingType type = ToppingType.valueOf(choice);
+                    boolean exists = toppings.stream()
+                            .anyMatch(t -> t.getType() == type);
+                    if (!exists) {
+                        toppings.add(new Toppings(type.getName(), type, false));
+                    }
+                }
+                catch (IllegalArgumentException e){
+                    System.out.println("Please select a topping from the list");
+                }
+            }
+        }
+        System.out.println("Do you want extra toppings?" +
+                "\n-yes" +
+                "\n-no");
+        String extraResponse = scanner.nextLine().trim().toLowerCase();
+        if(extraResponse.equals("yes")){
+            System.out.println("Which topping(s) do you want extra?");
+            String extraInput = scanner.nextLine().trim().toUpperCase();
+            String[] extraChoices = extraInput.split(",");
+            for (String choice : extraChoices){
+                try {
+                    choice = choice.trim().replace(" ", "_");
+                    ToppingType extraTopping = ToppingType.valueOf(choice);
+                    boolean found = false;
+                    for (Toppings t : toppings) {
+                        if (t.getType() == extraTopping) {
+                            t.setExtra(true);
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found) {
+                        toppings.add(new Toppings(extraTopping.getName(), extraTopping, true));
+                    }
+                    System.out.println("You added extra: " + extraTopping.getName());
+                } catch (IllegalArgumentException e) {
+                    System.out.println("Invalid topping! Please select from the list.");
+                }
+            }
+        }
+        System.out.println("You selected:");
+        for (Toppings t : toppings) {
+            System.out.println("- " + t.getName() + (t.isExtra() ? " (extra)" : ""));
+        }
+        List<Sauces> sauces = new ArrayList<>();
+        while(sauces.isEmpty()) {
+            System.out.println("Please select your sauces: " +
+                    "\n-marinara" +
+                    "\n-alfredo" +
+                    "\n-pesto" +
+                    "\n-bbq" +
+                    "\n-buffalo" +
+                    "\n-olive oil");
+            String input = scanner.nextLine().trim().toUpperCase();
+            String[] choices = input.split(",");
+            for (String choice : choices) {
+                try {
+                    choice = choice.trim().replace(" ", "_");
+                    Sauces sauce = Sauces.valueOf(choice);
+                    if (!sauces.contains(sauce)) {
+                        sauces.add(sauce);
+                    }
+                } catch (IllegalArgumentException e) {
+                    System.out.println("Please select a sauce from the list");
+                }
+            }
+            if (sauces.isEmpty()) {
+                System.out.println("No sauces selected. Please try again.\n");
+            }
+        }
+        System.out.println("You selected: " + String.join(", ",
+                sauces.stream().map(Sauces::toString).toList()));
+        List<Sides> sides = new ArrayList<>();
+        while(sides.isEmpty()){
+            System.out.println("Please select your sides: " +
+                    "\n-red pepper" +
+                    "\n-parmesan");
+            String input = scanner.nextLine().trim().toUpperCase();
+            String[] choices = input.split(",");
+            for (String choice : choices) {
+                try {
+                    choice = choice.trim().replace(" ", "_");
+                    Sides side = Sides.valueOf(choice);
+                    if (!sides.contains(side)) {
+                        sides.add(side);
+                    }
+                } catch (IllegalArgumentException e) {
+                    System.out.println("Please enter a side from the list");
+                }
+            }
+            if (sides.isEmpty()) {
+                System.out.println("No sides selected. Please try again.\n");
+            }
+        }
+        System.out.println("You selected: " + String.join(", ",
+                sides.stream().map(Sides::toString).toList()));
+        double totalPrice = pizzaSize.getPrice();
+        for (Toppings t : toppings) {
+            totalPrice += t.totalCost(pizzaSize.getName());
+        }
+        Pizza pizza = new Pizza(pizzaSize, crustType, stuffedCrust, toppings, sauces, sides, totalPrice);
+        System.out.println("\n--- Your Pizza Order ---");
+        System.out.println("Size: " + pizza.getSize().getName());
+        System.out.println("Crust: " + crustType.getName() + (stuffedCrust ? " (stuffed)" : ""));
+        System.out.println("Toppings:");
+        for (Toppings t : toppings) {
+            System.out.println("- " + t.getName() + (t.isExtra() ? " (extra)" : ""));
+        }
+        System.out.println("Sauces: " + String.join(", ", sauces.stream().map(Sauces::toString).toList()));
+        System.out.println("Sides: " + String.join(", ", sides.stream().map(Sides::toString).toList()));
+        System.out.printf("Total Price: $%.2f%n", pizza.getFullPrice());
+        orderScreen();
     }
     public static void addDrink(){
         DrinkSize size = null;
@@ -67,7 +249,7 @@ public class MainMenu {
             }
             try {
                 size = DrinkSize.valueOf(input);
-                System.out.println("You selected: " + size);
+                System.out.println("You selected: " + size.getName());
             } catch (IllegalArgumentException e) {
                 System.out.println("Please enter a valid size or press 0 to go back.");
             }
@@ -82,7 +264,7 @@ public class MainMenu {
             String userInput = scanner.nextLine().toUpperCase();
             try {
                 flavor = DrinkFlavor.valueOf(userInput);
-                System.out.println("You selected: " + flavor);
+                System.out.println("You selected: " + flavor.getName());
             } catch (IllegalArgumentException e) {
                 System.out.println("Please enter a valid flavor.");
             }
@@ -107,7 +289,7 @@ public class MainMenu {
                     continue;
                 }
                 GarlicKnots garlicKnots = new GarlicKnots(1.50, quantity);
-                System.out.println("You added " + quantity + " garlic knots " + garlicKnots);
+                System.out.println("You added " + quantity + " garlic knots. " + garlicKnots);
                 break;
             } catch (InputMismatchException e){
                 System.out.println("Invalid input! Please enter a valid number");

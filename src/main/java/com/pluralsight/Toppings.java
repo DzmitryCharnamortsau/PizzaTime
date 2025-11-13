@@ -22,6 +22,11 @@ public class Toppings {
     public boolean isExtra() {
         return extra;
     }
+
+    public void setExtra(boolean extra) {
+        this.extra = extra;
+    }
+
     public double totalCost(String pizzaSize){
         if (extra){
             return type.getPrice(pizzaSize) + getType().getExtraPrice(pizzaSize);
