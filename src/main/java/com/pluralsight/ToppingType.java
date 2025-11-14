@@ -9,11 +9,11 @@ public enum ToppingType {
     CHICKEN("Chicken", "meat", 1.00, 2.00, 3.00, 0.50, 1.00, 1.50),
     MEATBALL("Meatball", "meat", 1.00, 2.00, 3.00, 0.50, 1.00, 1.50),
     //cheeses
-    MOZZARELLA("Mozzarella", "cheese", 0.75, 1.50, 1.25, 0.30, 0.60, 0.90),
-    BUFFALO("Buffalo", "cheese", 0.75, 1.50, 1.25, 0.30, 0.60, 0.90),
-    PARMESAN("Parmesan", "cheese", 0.75, 1.50, 1.25, 0.30, 0.60, 0.90),
-    RICOTTA("Ricotta", "cheese", 0.75, 1.50, 1.25, 0.30, 0.60, 0.90),
-    GOAT_CHEESE("Goat cheese", "cheese", 0.75, 1.50, 1.25, 0.30, 0.60, 0.90),
+    MOZZARELLA("Mozzarella", "cheese", 0.75, 1.50, 2.25, 0.30, 0.60, 0.90),
+    BUFFALO("Buffalo", "cheese", 0.75, 1.50, 2.25, 0.30, 0.60, 0.90),
+    PARMESAN("Parmesan", "cheese", 0.75, 1.50, 2.25, 0.30, 0.60, 0.90),
+    RICOTTA("Ricotta", "cheese", 0.75, 1.50, 2.25, 0.30, 0.60, 0.90),
+    GOAT_CHEESE("Goat cheese", "cheese", 0.75, 1.50, 2.25, 0.30, 0.60, 0.90),
     //regular
     ONIONS("Onions", "regular"),
     MUSHROOMS("Mushrooms", "regular"),

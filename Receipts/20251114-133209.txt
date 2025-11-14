@@ -1,0 +1,17 @@
+🍕PizzaTime Receipt🍕
+____________________
+Pizza:
+- Medium (Thin crust) $15.50
+Toppings:
+   - Ham
+   - Ricotta
+   - Mushrooms
+   - Olives (extra)
+Sauces: Marinara
+Sides: Parmesan
+
+Drinks:
+- Small Orange $2.00
+
+Total Price: $17.50
+Thank you for your order! See you next time🍕

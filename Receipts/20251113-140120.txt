@@ -1,0 +1,20 @@
+🍕PizzaTime Receipt🍕
+____________________
+Pizza:
+- Large (Thick crust) $20.75
+Toppings:
+   - Ham
+   - Ricotta
+   - Olives (extra)
+   - Tomatoes
+Sauces: Alfredo
+Sides: Red pepper
+
+Drinks:
+- Large Orange $3.00
+
+Garlic Knots:
+- 2 knots $3.00
+
+Total Price: $26.75
+Thank you for your order! See you next time🍕

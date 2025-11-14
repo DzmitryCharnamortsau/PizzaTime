@@ -1,0 +1,19 @@
+🍕PizzaTime Receipt🍕
+____________________
+Pizza:
+- Large (Thick crust) $21.75
+Toppings:
+   - Ham
+   - Ricotta
+   - Olives
+Sauces: Pesto
+Sides: Red pepper
+
+Drinks:
+- Small Orange $2.00
+
+Garlic Knots:
+- 5 knots $7.50
+
+Total Price: $31.25
+Thank you for your order! See you next time🍕

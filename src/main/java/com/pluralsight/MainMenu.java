@@ -39,9 +39,9 @@ public class MainMenu {
         boolean ordering = true;
         while(ordering){
             System.out.println("""
-            ------------------------------
+            ----------------------------------
                  🍕 Pizza Time Order Menu 🍕
-            ------------------------------
+            ----------------------------------
             1 - Add Pizza🍕
             2 - Add Drink🧃
             3 - Add Garlic Knots🧄
@@ -246,7 +246,6 @@ public class MainMenu {
         System.out.println("Sides: " + String.join(", ", sides.stream().map(Sides::toString).toList()));
         System.out.printf("Total Price: $%.2f%n", pizza.getFullPrice());
         pizzas.add(pizza);
-        return;
     }
     public static void addDrink(){
         DrinkSize size = null;
@@ -283,7 +282,6 @@ public class MainMenu {
         Drink drink = new Drink(size, flavor, size.getPrice());
         System.out.println("Drink added: " + drink);
         drinks.add(drink);
-        return;
     }
     public static void addKnots(){
         while(true){
@@ -383,7 +381,7 @@ public class MainMenu {
                 writer.write("🍕PizzaTime Receipt🍕\n");
                 writer.write("____________________\n");
                 if (!pizzas.isEmpty()) {
-                    writer.write("Pizzas:\n");
+                    writer.write("Pizza:\n");
                     for (Pizza p : pizzas) {
                         writer.write(String.format("- %s (%s crust%s) $%.2f\n",
                                 p.getSize().getName(),

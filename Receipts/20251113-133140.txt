@@ -1,0 +1,15 @@
+🍕PizzaTime Receipt🍕
+____________________
+Pizza:
+- Personal (Thin crust) $9.50
+Toppings:
+   - Pepperoni
+   - Olives
+Sauces: Marinara
+Sides: Red pepper
+
+Drinks:
+- Small Cherry $2.00
+
+Total Price: $11.50
+Thank you for your order! See you next time🍕

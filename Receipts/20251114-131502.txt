@@ -1,0 +1,20 @@
+🍕PizzaTime Receipt🍕
+____________________
+Pizza:
+- Medium (Thin crust) $15.50
+Toppings:
+   - Ham
+   - Ricotta
+   - Olives (extra)
+   - Basil
+Sauces: Pesto
+Sides: Parmesan
+
+Drinks:
+- Medium Orange $2.50
+
+Garlic Knots:
+- 5 knots $7.50
+
+Total Price: $25.50
+Thank you for your order! See you next time🍕
